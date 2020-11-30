@@ -7,6 +7,7 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
+  TextInput
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Entypo } from "@expo/vector-icons";
@@ -15,12 +16,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { color } from "react-native-reanimated";
 
 import { FloatingAction } from "react-native-floating-action";
+import { Right } from "native-base";
 
 const colors = {
   themeColor: "#FDF5F4",
   white: "#fff",
   pink: "#EE6457",
-  background: "#f4f6fc",
+  background: "#FDF5F4",
   greyish: "#a4a4a4",
   tint: "#D8D6D7",
 };
@@ -50,9 +52,10 @@ const tasks = [
 
 const Task = ({ task, icon, theme, stamp }) => {
   return (
+   
     <View
       style={{
-        backgroundColor: color.white,
+        backgroundColor: color.themeColor,
         flexDirection: "row",
         marginHorizontal: 16,
         marginVertical: 4,
@@ -75,66 +78,79 @@ const Task = ({ task, icon, theme, stamp }) => {
         <Text style={{ color: colors.greyish }}>{stamp}</Text>
       </View>
 
-      <View style={{ flexDirection: "row" }}>
+      <TouchableOpacity style={{ flexDirection: "row",  }}>
             <MaterialCommunityIcons
               name="pencil"
               size={30}
               style={{ color: colors.pink }}
             />
-
+ </TouchableOpacity>
+ <TouchableOpacity style={{ flexDirection: "row" }}>
                 <MaterialCommunityIcons
               name="trash-can"
               size={30}
               style={{ color: colors.pink }}
             />
-            </View>
+            </TouchableOpacity>
     </View>
+   
   );
 };
 
 const actions = [
   {
     text: "Add Task",
-    icon: require("../assets/logo.png"),
+    // icon: require("../assets/logo.png"),
     name: "bt_accessibility",
     position: 2,
+    color: '#97BEC6'
   },
   {
     text: "Send Message",
-    icon: require("../assets/logo.png"),
+    // icon: require("../assets/logo.png"),
     name: "bt_language",
     position: 1,
+    color: '#97BEC6'
   },
   {
     text: "Create Reminder",
-    icon: require("../assets/logo.png"),
+    // icon: require("../assets/logo.png"),
     name: "bt_room",
     position: 3,
+    color: '#97BEC6'
   },
 ];
 
 const TasksScreen = ({ navigation }) => {
   return (
-    <View>
+    <View backgroundColor={colors.themeColor} style={styles.container}  >
+      
       <StatusBar barStyle="light-content" backgroundColor={colors.themeColor} />
       <View style={{ backgroundColor: colors.themeColor }}>
+        
         <View
           style={{
             padding: 16,
             flexDirection: "row",
             justifyContent: "space-between",
+            backgroundColor: '#FDF5F4',
+            flex: 1,
           }}
         >
+     
           <Entypo name="text" size={30} style={{ color: colors.pink }} />
-          <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity style={{ flexDirection: "row" }}>
             <MaterialCommunityIcons
               name="bell-outline"
               size={30}
               style={{ color: colors.pink }}
             />
+             </TouchableOpacity>
+             <TouchableOpacity style={{ flexDirection: "row" }}>
             <AntDesign name="user" size={30} style={{ color: colors.pink }} />
-          </View>
+            </TouchableOpacity>
         </View>
+        
         <View style={{ padding: 16 }}>
           <Text style={{ color: color.white, fontSize: 30 }}>{"Hello"}</Text>
 
@@ -150,11 +166,20 @@ const TasksScreen = ({ navigation }) => {
               alignItems: "center",
             }}
           >
+            <TextInput
+               style={{ 
+                 height: 40, 
+                 borderColor: colors.tint, 
+                 borderWidth: 0 }}
+  
+      
+    />
             <MaterialCommunityIcons
               name="magnify"
               size={30}
               style={{ color: colors.white }}
             />
+            
           </View>
         </View>
 
@@ -169,7 +194,7 @@ const TasksScreen = ({ navigation }) => {
           }}
         >
           <Text style={{ fontSize: 24 }}>Tasks</Text>
-          <MaterialCommunityIcons
+          {/* <MaterialCommunityIcons
             name="plus"
             size={30}
             style={{
@@ -177,10 +202,10 @@ const TasksScreen = ({ navigation }) => {
               borderRadius: 20,
               marginHorizontal: 8,
             }}
-          />
+          /> */}
         </View>
 
-        <ScrollView>
+        <ScrollView backgroundColor={colors.themeColor}>
           {tasks.map((task) => (
             <Task
               task={task.task}
@@ -192,15 +217,26 @@ const TasksScreen = ({ navigation }) => {
         </ScrollView>
       </View>
 
-      <View style={{padding: 50}}>
-        <FloatingAction
+      <View style={{padding: 50 ,backgroundColor: '#FDF5F4'
+      }}>
+        <FloatingAction backgroundColor={colors.themeColor}
           actions={actions}
+          color='#97BEC6'
           onPressItem={(name) => {
             console.log(`selected button: ${name}`);
           }}
         />
       </View>
     </View>
+    
   );}
 
 export default TasksScreen;
+
+
+const styles = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    backgroundColor: "#FDF5F4" }
+  });

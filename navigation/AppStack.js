@@ -7,7 +7,7 @@ const Stack = createStackNavigator();
 const AppStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="SafetyHub" component={MainTabsScreen} />
+      <Stack.Screen name="SafetyHub" component={MainTabsScreen} options={{ headerShown: false }}/>
     </Stack.Navigator>
   );
 };
