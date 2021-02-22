@@ -48,17 +48,17 @@ const OnBoardingScreen = ({navigation}) => {
         onDone={() => navigation.navigate("Login")}
             pages={[
              {
-                backgroundColor: '#fd5f57',
+               
                 image: <Image source={require('../assets/Tasks.png')} resizeMode="contain" style={{ width: 680, height: 800 }} />,
               
              },
              {
-                backgroundColor: '#fb8856',
+                
                 image: <Image source={require('../assets/forms.png')} resizeMode="contain" style={{ width: 700, height: 800 }} />,
           
              },
              {
-                backgroundColor: '#D6C5B6',
+               
                 image: <Image source={require('../assets/saved.png')} resizeMode="contain" style={{ width: 700, height: 800 }} />,
                
              },

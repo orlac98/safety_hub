@@ -1,149 +1,173 @@
-import React,{Component} from "react";
+import React,{ useContext }  from "react";
+import { AuthContext } from "../navigation/AuthProvider";
 import {
-  StyleSheet,
   Text,
-  FlatList,
-  ScrollView, ActivityIndicator, View
+  View,
+  ListItem,
+  List,
+  Icon,
+  Container,
+  Header,
+  Title,
+  Content,
+  Body,
+  Button,
+  Right,
+  Item,
+  Input,
+  Left
+} from "native-base";
+import { Platform } from "react-native";
+import DocumentPicker from "react-native-document-picker";
+import RNFetchBlob from "rn-fetch-blob";
+import firebaseSetup from "../database/firebaseDb";
+import AuthStack from '../navigation/AuthStack';
+import firestore from '@react-native-firebase/firestore';
+
+
+const FilesScreen = (props) => {
+  const { storage, database } = firebaseSetup();
+  const [filesList, setFilesList] = React.useState([]);
+  const { user } = useContext(AuthContext);
+
+
   
-} from "react-native";
-import { ListItem } from 'react-native-elements';
-import firebase from '../database/firebaseDb';
-import {Container,Card,UserInfo,UserImg, UserName, FileInfo,PostTime, PostText, PostImg} from '../styles/filesStyles';
-// import PostCard from '../components/PostCard';
-
-
-
-
-class FilesScreen extends Component {
-
-  constructor() {
-    super();
-    this.firestoreRef = firebase.firestore().collection('Todo');
-    this.state = {
-      isLoading: true,
-      userArr: []
-    };
-  }
-
-  componentDidMount() {
-    this.unsubscribe = this.firestoreRef.onSnapshot(this.getCollection);
-  }
-
-  componentWillUnmount(){
-    this.unsubscribe();
-  }
-
-  getCollection = (querySnapshot) => {
-    const userArr = [];
-    querySnapshot.forEach((res) => {
-      const { Title, Body, Date } = res.data();
-      userArr.push({
-        key: res.id,
-        res,
-        Title,
-        Body,
-        Date,
+  //we can choose all types of files here
+  async function chooseFile() {
+    // Pick a single file
+    try {
+      const file = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
       });
-    });
-    this.setState({
-      userArr,
-      isLoading: false,
-   });
+      const path = await normalizePath(file.uri);
+      const result = await RNFetchBlob.fs.readFile(path, "base64");
+      uploadFileToFirebaseStorage(result, file,user);
+      console.log(result);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the picker, exit any dialogs or menus and move on
+      } else {
+        throw err;
+      }
+    }
+  }
+  // we have to remove prefix from path url
+  async function normalizePath(path) {
+    if (Platform.OS === "ios" || Platform.OS === "android") {
+      const filePrefix = "file://";
+      if (path.startsWith(filePrefix)) {
+        path = path.substring(filePrefix.length);
+        try {
+          path = decodeURI(path);
+        } catch (e) {}
+      }
+    }
+    return path;
   }
 
-  render() {
-    if(this.state.isLoading){
-      return(
-        <View style={styles.preloader}>
-          <ActivityIndicator size="large" color="#9E9E9E"/>
-        </View>
-      )
-    }    
-    return (
-      <ScrollView style={styles.container}>
-          {
-            this.state.userArr.map((item, i) => {
-              return (
-                <ListItem
-                  key={i}
-                  chevron
-                  bottomDivider
-                  title={item.Title}
-                  // subtitle={item.Body}
-                  onPress={() => {
-                    this.props.navigation.navigate('FileDetailScreen', {
-                      userkey: item.key
-                    });
-                  }}/>
-              );
-            })
-          }
-      </ScrollView>
+  async function uploadFileToFirebaseStorage(result, file) {
+    const uploadTask = storage()
+      .ref(`allFiles/${file.name}`)
+      .putString(result, "base64", { contentType: file.type});
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        switch (snapshot.state) {
+          case storage.TaskState.PAUSED: // or 'paused'
+            break;
+          case storage.TaskState.RUNNING: // or 'running'
+            break;
+        }
+      },
+      function (error) {
+        console.log(error);
+        // Handle unsuccessful uploads
+      },
+      function () {
+        // Handle successful uploads on complete
+
+        uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+          saveFileToRealtimeDatabase(downloadURL, file);
+        });
+      }
     );
   }
+
+
+  function saveFileToRealtimeDatabase(downloadURL, file) {
+    const uniquKey = database().ref().push().key;
+    database().ref(`allFiles/${uniquKey}`).update({
+      fileName: file.name,
+      fileType: file.type,
+      fileURL: downloadURL,
+      userId : `${user.uid}`
+    });
+  }
+  React.useEffect(() => {
+//this is for development type
+setFilesList([])
+//end
+
+    const onChildAdded = database()
+      .ref(`allFiles`)
+      .on("child_added", (snapshot) => {
+        let helperArr = [];
+        helperArr.push(snapshot.val());
+        setFilesList((files) => [...files,...helperArr])
+      });
+    return () => database().ref(`allFiles`).off("child_added", onChildAdded);
+ 
+ 
+  }, []);
+  
+const deleteAllFiles = Id => {
+  // alert(Id);
+}
+const deleteFile = Id => {
+  // alert(Id);
 }
 
-const styles = StyleSheet.create({
-  container: {
-   flex: 1,
-   paddingBottom: 22
-  },
-  preloader: {
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
 
-// export default FilesScreen;
+  return (
+    <Container>
+      <Header>
+        <Body style={{ flex: 1, alignItems: "center" }}>
+          <Title> File </Title>
+        </Body>
+        <Right style={{ flex: 0.2 }}>
+          <Button transparent onPress={chooseFile}>
+            <Icon name="cloud-upload" type="MaterialIcons" />
+          </Button>
+          <Button transparent onPress={deleteAllFiles('Id')}>
+            <Icon name="trash" />
+          </Button>
+        </Right>
+      </Header>
+      <Content>
+        {filesList.map((item, index) => (
+          
+          <ListItem key ={index}
+          onPress={() =>
+            props.navigation.navigate("FilePreview", {
+            fileData: item,
+            
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const FilesScreen = () => {
-//   return (
-//     <Container> 
-//       <Card>
-//         <UserInfo>
-//         <UserImg source={require('../assets/ProfilePic_001.png')}/>
-//         <FileInfo>
-//         <UserName >Orla Connelly </UserName>
-//         <PostTime>4 hours</PostTime>
-//         </FileInfo>
-//         </UserInfo>
-//         <PostText>this is a test</PostText>
-//         <PostImg source={require('../assets/logo.png')}/>
+          })
+          }>
+            <Text>{item.fileName}</Text>
+            <Button transparent onPress={() => deleteFile('Id')}>
+              <Icon active name="trash"/>
+            </Button>
+          </ListItem>
       
-
-//       </Card>
-//     </Container>
-//     );
-// } 
-
+        ))}
+        
+      </Content>
+    </Container>
+  );
+};
 export default FilesScreen;
-{/* <FlatList
-data={Posts}
-renderItem={({item}) => <PostCard item={item} />}
-keyExtractor={item=>item.id}
-showsHorizontalScrollIndicator={false}
-/> */}

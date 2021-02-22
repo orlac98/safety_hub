@@ -1,7 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import MainTabsScreen from "../screens/MainTabsScreen";
-
+import FilePreview from '../screens/FilePreview';
 const Stack = createStackNavigator();
 
 const AppStack = () => {
@@ -23,6 +23,11 @@ const AppStack = () => {
         }
       }}
        />
+       <Stack.Screen
+        name="FilePreview"
+        component={FilePreview}
+        
+      />
     </Stack.Navigator>
   );
 };

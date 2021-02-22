@@ -8,6 +8,7 @@ import LoginScreen from "../screens/LoginScreen";
 import SignupScreen from "../screens/SignupScreen";
 import MainTabsScreen from "../screens/MainTabsScreen";
 import FormsScreen from "../screens/FormsScreen";
+import FilePreview from '../screens/FilePreview';
 
 import { GoogleSignin } from "@react-native-community/google-signin";
 
@@ -49,11 +50,12 @@ const AuthStack = () => {
         options={{ header: () => null }}
       />
 
-       <Stack.Screen
+       {/* <Stack.Screen
         name="formScreen"
         component={FormsScreen}
         options={{ header: () => null }}
-      />
+      /> */}
+     
 
      
 
@@ -91,6 +93,7 @@ const AuthStack = () => {
         component={MainTabsScreen}
         options={{ header: () => null }}
       />
+      
     </Stack.Navigator>
   );
 };

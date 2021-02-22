@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import  React from 'react';
  import { createStackNavigator } from '@react-navigation/stack';
  import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-
+import Button from 'react-native';
 
 //icon fonts
 
@@ -19,12 +19,13 @@ import FilesScreen from './FilesScreen';
 import FormsScreen from './FormsScreen';
 import LearnScreen from "./LearnScreen";
 
-// const TasksStack = createStackNavigator();
-// const ProfileStack = createStackNavigator();
+ const TasksStack = createStackNavigator();
+ const ProfileStack = createStackNavigator();
+ const FormsStack = createStackNavigator();
 
 const Tab = createMaterialBottomTabNavigator();
 
-const MainTabsScreen = () => (
+const MainTabsScreen = ({navigation}) => (
   <Tab.Navigator
     initialRouteName="Tasks"
     activeColor="#fb8856"
@@ -110,15 +111,9 @@ export default MainTabsScreen;
 //                 }
 //                 }}>
     
-//               <ProfileStack.Screen name="ProfileScreen" component={ProfileScreen}
-//                options={{
-//              headerLeft: () => (
-//                <Ionicons.Button name="ion-android-contact" size={25}
-//                backgroundColor="#009387" onPress={() => navigation.openDrawer
-//                ()}></Ionicons.Button>
-//              )
-      
-//               }} />
+//               <ProfileStack.Screen
+//                name="ProfileScreen"
+//                component={ProfileScreen}/>
               
 //             </ProfileStack.Navigator>
 //       );
@@ -134,14 +129,15 @@ export default MainTabsScreen;
 //                   }}>
       
 //                 <FormsStack.Screen name="Forms" component={FormsScreen}
-//                  options={{
-//                headerLeft: () => (
-//                  <Ionicons.Button name="ion-android-contact" size={25}
-//                  backgroundColor="#009387" onPress={() => navigation.openDrawer
-//                  ()}></Ionicons.Button>
-//                )
+//               //    options={{
+//               //  headerLeft: () => (
+//               //    <Ionicons.Button name="ion-android-contact" size={25}
+//               //    backgroundColor="#009387" onPress={() => navigation.openDrawer
+//               //    ()}></Ionicons.Button>
+//               //  )
         
-//                 }} />
+//               //   }} 
+//               />
                 
 //               </FormsStack.Navigator>
 //         );
