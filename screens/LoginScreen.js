@@ -15,13 +15,18 @@ import { AuthContext } from "../navigation/AuthProvider";
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-
   const { login, googleLogin } = useContext(AuthContext);
+
 
   return (
     <View style={styles.container}>
       <Image source={require("../assets/logo.png")} style={styles.logo} />
       <Text style={styles.text}>SafetyHub</Text>
+      
+      {/* <View style={styles.errorMessage}>
+        {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text>}
+        </View> */}
+
 
       <FormInput
         labelValue={email}
@@ -55,8 +60,8 @@ const LoginScreen = ({ navigation }) => {
           <SocialButton
             buttonTitle="Sign In with Google"
             btnType="google"
-            color="#de4d41"
-            backgroundColor="#f5e7ea"
+            color="#fd5f57"
+            backgroundColor="#fff"
             onPress={() => googleLogin()}
           />
         </View>
@@ -78,7 +83,7 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FDF5F4",
+    backgroundColor: "#2C3641",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -90,22 +95,29 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   text: {
-    fontFamily: "HelveticaNeue-Medium",
+    fontFamily: "Comfortaa-Regular",
     fontSize: 28,
     marginBottom: 10,
-    color: "#034C5F",
+    color: "#FB8856",
   },
   navButton: {
     marginTop: 15,
   },
   forgotButton: {
     marginVertical: 35,
-    color: "#034C5F",
+    color: "#FD5F57",
+    
   },
   navButtonText: {
     fontSize: 18,
     fontWeight: "500",
-    color: "#034C5F",
-    fontFamily: "Lato-Regular",
+    color: "#FD5F57",
+    fontFamily: "Comfortaa-Regular"
   },
+  errorMessage: {
+    height: 72,
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 30
+  }
 });

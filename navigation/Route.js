@@ -13,7 +13,7 @@ const Routes = () => {
     const onAuthStateChanged = (user) => {
         setUser(user);
         if(initializing) setInitializing(false);
-    }
+    };
 
     useEffect(() => {
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged);

@@ -92,7 +92,7 @@ const ProfileScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.container}>
-        {/* <Text style={styles.text}>Welcome {user.uid}</Text> */}
+        <Text style={styles.text}>Welcome {user.email}</Text> 
         <FormButton buttonTitle="Logout" onPress={() => logout()} />
       </View>
     </View>

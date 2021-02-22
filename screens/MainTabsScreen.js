@@ -11,6 +11,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons'; 
 
 import ProfileScreen from './ProfileScreen';
 import TasksScreen from './TasksScreen';
@@ -26,9 +27,12 @@ const Tab = createMaterialBottomTabNavigator();
 const MainTabsScreen = () => (
   <Tab.Navigator
     initialRouteName="Tasks"
-    activeColor="#EE6457"
-    inactiveColor="#EE6457"
-    barStyle={{ backgroundColor: "#FDF5F4" }}
+    activeColor="#fb8856"
+    inactiveColor="#45505d"
+    barStyle={{ 
+     
+      backgroundColor: "#fefeff"
+     }}
   >
     <Tab.Screen
       name="Tasks"
@@ -46,7 +50,7 @@ const MainTabsScreen = () => (
       options={{
         tabBarLabel: "Forms",
         tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="file-document-box" color={color} size={28} />
+          <FontAwesome5 name="file-signature" color={color} size={26} />
         ),
       }}
     />
@@ -56,7 +60,7 @@ const MainTabsScreen = () => (
       options={{
         tabBarLabel: "Files",
         tabBarIcon: ({ color }) => (
-          <FontAwesome name="file" color={color} size={22} />
+          <Entypo name="folder" color={color} size={25} />
         ),
       }}
     />

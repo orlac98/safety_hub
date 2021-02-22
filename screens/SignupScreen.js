@@ -47,11 +47,12 @@ const SignupScreen = ({ navigation }) => {
         iconType="lock"
         secureTextEntry={true}
       />
+      
 
       <FormButton
         buttonTitle="Sign Up"
-        onPress={() => alert("Sign up clicked")}
         onPress={() => register(email, password)}
+        
       />
 
       <View style={styles.textPrivate}>
@@ -76,8 +77,8 @@ const SignupScreen = ({ navigation }) => {
           <SocialButton
             buttonTitle="Sign Up with Google"
             btnType="google"
-            color="#de4d41"
-            backgroundColor="#f5e7ea"
+            color="#fd5f57"
+            backgroundColor="#ffff"
             onPress={() => {}}
           />
         </View>
@@ -97,7 +98,7 @@ export default SignupScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FDF5F4",
+    backgroundColor: "#2C3641",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     fontFamily: "Kufam-SemiBoldItalic",
     fontSize: 28,
     marginBottom: 10,
-    color: "#051d5f",
+    color: "#FB8856",
   },
   navButton: {
     marginTop: 15,
@@ -115,8 +116,8 @@ const styles = StyleSheet.create({
   navButtonText: {
     fontSize: 18,
     fontWeight: "500",
-    color: "#034C5F",
-    fontFamily: "Lato-Regular",
+    color: "#FD5F57",
+    fontFamily: "Comfortaa-Regular"
   },
   textPrivate: {
     flexDirection: "row",

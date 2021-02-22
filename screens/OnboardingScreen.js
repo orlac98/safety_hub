@@ -5,23 +5,7 @@ import { View, Text,  Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 
 
-// const Dots = ({selected}) => {
-//     let backgroundColor;
 
-//     backgroundColor = selected ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.3)' ;
-
-//     return (
-//         <view
-//          style={{
-//             width:6,
-//             height:6,
-//             marginHorizontal: 3,
-//             backgroundColor
-//             }}
-//         />
-//     );
-    
-// }
 
 const Skip = ({ ...props}) =>(
     <TouchableOpacity
@@ -59,27 +43,24 @@ const OnBoardingScreen = ({navigation}) => {
         SkipButtonComponent={Skip}
         NextButtonComponent={Next}
         DoneButtonComponent={Done}
-        // DotComponent={Dots}
+     
         onSkip={() => navigation.replace("Login")}
         onDone={() => navigation.navigate("Login")}
             pages={[
              {
-                backgroundColor: '#fff',
-                image: <Image source={require('../assets/1.png')} resizeMode="contain" style={{ width: 700, height: 800 }} />,
-                // title: 'SafetyHub',
-                // subtitle: 'Everything you need in one place',
+                backgroundColor: '#fd5f57',
+                image: <Image source={require('../assets/Tasks.png')} resizeMode="contain" style={{ width: 680, height: 800 }} />,
+              
              },
              {
-                backgroundColor: '#fff',
-                image: <Image source={require('../assets/2.png')} resizeMode="contain" style={{ width: 700, height: 800 }} />,
-                // title: 'Onboarding',
-                // subtitle: 'Done with React Native Onboarding Swiper',
+                backgroundColor: '#fb8856',
+                image: <Image source={require('../assets/forms.png')} resizeMode="contain" style={{ width: 700, height: 800 }} />,
+          
              },
              {
-                backgroundColor: '#fff',
-                image: <Image source={require('../assets/3.png')} resizeMode="contain" style={{ width: 700, height: 800 }} />,
-                // title: 'Onboarding',
-                // subtitle: 'Done with React Native Onboarding Swiper',
+                backgroundColor: '#D6C5B6',
+                image: <Image source={require('../assets/saved.png')} resizeMode="contain" style={{ width: 700, height: 800 }} />,
+               
              },
             ]}
             />

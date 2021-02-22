@@ -8,7 +8,7 @@ import LoginScreen from "../screens/LoginScreen";
 import SignupScreen from "../screens/SignupScreen";
 import MainTabsScreen from "../screens/MainTabsScreen";
 import FormsScreen from "../screens/FormsScreen";
-import AfoneFormScreen from "../screens/AfoneFormScreen";
+
 import { GoogleSignin } from "@react-native-community/google-signin";
 
 const Stack = createStackNavigator();
@@ -34,8 +34,8 @@ const AuthStack = () => {
   }, []);
 
   if (isFirstLaunch === null) {
-    return null; // This is the 'tricky' part: The query to AsyncStorage is not finished, but we have to present something to the user. Null will just render nothing, so you can also put a placeholder of some sort, but effectively the interval between the first mount and AsyncStorage retrieving your data won't be noticeable to the user. But if you want to display anything then you can use a LOADER here
-  } else if (isFirstLaunch == true) {
+    return null; 
+   } else if (isFirstLaunch == true) {
     routeName = "Onboarding";
   } else {
     routeName = "Login";
@@ -49,17 +49,13 @@ const AuthStack = () => {
         options={{ header: () => null }}
       />
 
-      <Stack.Screen
+       <Stack.Screen
         name="formScreen"
         component={FormsScreen}
         options={{ header: () => null }}
       />
 
-      <Stack.Screen
-        name="Af1Form"
-        component={AfoneFormScreen}
-        options={{ header: () => null }}
-      />
+     
 
       <Stack.Screen
         name="Login"
@@ -69,11 +65,11 @@ const AuthStack = () => {
       <Stack.Screen
         name="Signup"
         component={SignupScreen}
-        options={({ navigation }) => ({
-          title: "",
+        options={({navigation}) => ({
+          title: '',
           headerStyle: {
-            backgroundColor: "#FDF5F4",
-            shadowColor: "#f9fafd",
+            backgroundColor: "#2c3641",
+            shadowColor: "#2c3641",
             elevation: 0,
           },
 
@@ -82,8 +78,8 @@ const AuthStack = () => {
               <AntDesign.Button
                 name="arrowleft"
                 size={25}
-                backgroundColor="#FDF5F4"
-                color="#333"
+                backgroundColor="#2c3641"
+                color="#fb8856"
                 onPress={() => navigation.navigate("Login")}
               />
             </View>
